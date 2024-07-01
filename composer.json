@@ -1,0 +1,12 @@
+{
+    "name": "mario/vinyl_db",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Mario Maliqi"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
