@@ -5,6 +5,7 @@ loggedInGuard();
 
 require_once('./includes/dbcon.php');
 require_once('./includes/sanitize_validate.php');
+require_once('./includes/redirect.php');
 
 $db = new DBCon();
 $con = $db->getCon();
@@ -13,8 +14,9 @@ $fieldNames =  [
 	'username', 
 	'password'
 ];
+
 if (!$inputsRes = areInputsSet($fieldNames, 'POST')[0]) {
-	exit('Please fill the username and password');
+	redirect('login.php?err=0');
 }
 $formattedInputs = formatInput($fieldNames);
 
@@ -42,12 +44,13 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?'
 				$_SESSION['name'] = $formattedInputs['username'];
 				$_SESSION['id'] = $id;
 			}
-			header('Location: dashboard.php');
+			redirect('dashboard.php');
+			die();
 		} else {
-			echo 'Incorrect username and/or password!';
+			redirect('login.php?err=1');
 		}
 	} else {
-		echo 'Incorrect username and/or password!';
+		redirect('login.php?err=1');
 	}
 	$stmt->close();
 }

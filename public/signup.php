@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('./includes/loggedin.php');
+require_once('./includes/auth_errors.php');
 loggedInGuard();
 ?>
 
@@ -20,5 +21,13 @@ loggedInGuard();
 			<input type="password" name="password" placeholder="Password" id="password" required>
 			<input type="submit" value="Login">
 		</form>
+<?php
+if (isset($_GET['err'])) {
+	$errorCode = (int)$_GET['err'];
+	if (ctype_digit($_GET['err']) && $errorCode < count($ERROR_MESSAGES) && $errorCode > -1) {
+		echo "<span> Error: $ERROR_MESSAGES[$errorCode] </span>";
+	}
+}
+?>
 	</body>
 </html>

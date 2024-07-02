@@ -5,6 +5,7 @@ loggedInGuard();
 
 require_once('./includes/dbcon.php');
 require_once('./includes/sanitize_validate.php');
+require_once('./includes/redirect.php');
 
 $db = new DBCon();
 $con = $db->getCon();
@@ -16,7 +17,7 @@ $fieldNames =  [
 ];
 
 if (!$inputsRes = areInputsSet($fieldNames, 'POST')[0]) {
-	exit('Please fill the username, password and email fields!');
+	redirect('signup.php?err=0');
 }
 $formattedInputs = formatInput($fieldNames);
 
@@ -26,8 +27,7 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?'
 	$stmt->execute();
 	$stmt->store_result();
 	if ($stmt->num_rows > 0) {
-		// redirect to signup with error message
-		exit("Username already exits");
+		redirect('signup.php?err=2');
 	}
 	$stmt->close();
 }
@@ -37,8 +37,7 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE email = ?')) 
 	$stmt->execute();
 	$stmt->store_result();
 	if ($stmt->num_rows > 0) {
-		// redirect to signup with error message
-		exit("email already exits");
+		redirect('signup.php?err=3');
 	}
 	$stmt->close();
 }
@@ -49,7 +48,8 @@ if ($stmt = $con->prepare("INSERT INTO accounts (username, password, email) VALU
 	$stmt->execute();
 	$stmt->store_result();
 	if ($stmt->affected_rows > 0) {
-		echo 'User created. <a href="public/login> Click here to login </a>"';
+		// this is fine
+		echo 'Account was successfully created. <a href="login.php"> Click here to login </a>';
 	}
 	$stmt->close();
 }
