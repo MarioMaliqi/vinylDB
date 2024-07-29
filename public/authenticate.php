@@ -11,15 +11,15 @@ $db = new DBCon();
 $con = $db->getCon();
 
 $fieldNames =  [
-	'username', 
+	'username',
 	'password'
 ];
 
-if (!$inputsRes = areInputsSet($fieldNames, 'POST')[0]) {
+if ($inputsRes = areInputsSet($fieldNames, 'POST')[0]) {
 	redirect('login.php?err=0');
 }
-$formattedInputs = formatInput($fieldNames);
 
+$formattedInputs = formatInput($fieldNames);
 if (!$inputsRes = areInputsSet(['remember'], 'POST')[0]) {
 	$rememberUser = false;
 } else {
@@ -37,14 +37,14 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?'
 			session_regenerate_id();
 			if (isset($rememberUser)) {
 				setcookie("loggedin", true);
-				setcookie('name', $formattedInputs['username']); 
-				setcookie('id', $id); 
+				setcookie('name', $formattedInputs['username']);
+				setcookie('id', $id);
 			} else {
 				$_SESSION['loggedin'] = true;
 				$_SESSION['name'] = $formattedInputs['username'];
 				$_SESSION['id'] = $id;
 			}
-			redirect('dashboard.php');
+			redirect('view_collection.php');
 			die();
 		} else {
 			redirect('login.php?err=1');

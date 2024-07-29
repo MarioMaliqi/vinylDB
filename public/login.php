@@ -21,6 +21,7 @@ loggedInGuard();
 			<input type="checkbox" name="remember" id="remember">
 			<input type="submit" value="Login">
 		</form>
+
 <?php
 if (isset($_GET['err'])) {
 	$errorCode = (int)$_GET['err'];
@@ -29,5 +30,6 @@ if (isset($_GET['err'])) {
 	}
 }
 ?>
+
 	</body>
 </html>

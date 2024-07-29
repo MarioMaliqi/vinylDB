@@ -12,6 +12,10 @@ function areInputsSet(array $names, $method) {
 			if (!isset($_POST[$name])) {
 				return [false, $name];
 			}
+		case 'FILES':
+			if (!isset($_FILES[$name])) {
+				return [false, $name];
+			}
 			break;
 		}
 	}

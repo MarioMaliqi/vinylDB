@@ -8,7 +8,7 @@ loggedInGuard();
 	<body>
 		<span>
 			<a href='login.php' > Login </a>
-			or 
+			or
 			<a href='signup.php' > Signup </a>
 		</span>
 	</body>
